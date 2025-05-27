@@ -1,4 +1,4 @@
-package org.kunal.ECommerce.controller;
+package org.kunal.ECommerce.product.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

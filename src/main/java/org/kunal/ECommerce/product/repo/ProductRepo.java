@@ -1,7 +1,7 @@
-package org.kunal.ECommerce.repo;
+package org.kunal.ECommerce.product.repo;
 
 
-import org.kunal.ECommerce.model.Product;
+import org.kunal.ECommerce.product.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

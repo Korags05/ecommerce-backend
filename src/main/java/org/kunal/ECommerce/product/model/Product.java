@@ -1,4 +1,4 @@
-package org.kunal.ECommerce.model;
+package org.kunal.ECommerce.product.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

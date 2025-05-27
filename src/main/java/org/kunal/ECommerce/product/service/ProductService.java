@@ -1,7 +1,7 @@
-package org.kunal.ECommerce.service;
+package org.kunal.ECommerce.product.service;
 
-import org.kunal.ECommerce.model.Product;
-import org.kunal.ECommerce.repo.ProductRepo;
+import org.kunal.ECommerce.product.model.Product;
+import org.kunal.ECommerce.product.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

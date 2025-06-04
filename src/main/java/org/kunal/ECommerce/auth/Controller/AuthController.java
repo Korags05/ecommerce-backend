@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import org.kunal.ECommerce.auth.util.JwtUtil;
+import org.kunal.ECommerce.common.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,13 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @GetMapping("/verify")
-    public ResponseEntity<Map<String, String>> verifyUser(@RequestHeader("Authorization") String authHeader) {
-        Map<String, String> response = new HashMap<>();
-
+    public ResponseEntity<ApiResponse<String>> verifyUser(@RequestHeader("Authorization") String authHeader) {
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 logger.warn("Invalid Authorization header received");
-                response.put("status", "error");
-                response.put("message", "Missing or invalid Authorization header");
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.badRequest().body(
+                        new ApiResponse<>(false, "Missing or invalid Authorization header", null)
+                );
             }
 
             String token = authHeader.substring(7);
@@ -40,24 +39,20 @@ public class AuthController {
 
             logger.info("User verified successfully: {}", decodedToken.getUid());
 
-            // Optionally generate internal JWT token for backend services
-            // String jwtToken = jwtUtil.generateToken(decodedToken.getUid(), decodedToken.getEmail());
-            // Store or use this JWT as needed for your internal services
-
-            response.put("status", "success");
-            response.put("message", "User authenticated successfully");
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(
+                    new ApiResponse<>(true, "User authenticated successfully", null)
+            );
 
         } catch (FirebaseAuthException e) {
             logger.warn("Firebase authentication failed: {}", e.getAuthErrorCode());
-            response.put("status", "error");
-            response.put("message", "Invalid or expired Firebase token");
-            return ResponseEntity.status(401).body(response);
+            return ResponseEntity.status(401).body(
+                    new ApiResponse<>(false, "Invalid or expired Firebase token", null)
+            );
         } catch (Exception e) {
             logger.error("Unexpected error during authentication", e);
-            response.put("status", "error");
-            response.put("message", "Authentication failed");
-            return ResponseEntity.status(500).body(response);
+            return ResponseEntity.status(500).body(
+                    new ApiResponse<>(false, "Authentication failed", null)
+            );
         }
     }
 
